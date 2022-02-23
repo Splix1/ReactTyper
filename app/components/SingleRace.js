@@ -61,7 +61,7 @@ function SingleRace() {
   }, [timer]);
 
   useEffect(() => {
-    if (racing === true) {
+    if (racing) {
       let startTime = new Date();
       let endTime = new Date();
       endTime.setSeconds(startTime.getSeconds() + 30);
