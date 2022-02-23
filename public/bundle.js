@@ -218,6 +218,11 @@ function SingleRace() {
       racing = _useState18[0],
       setRacing = _useState18[1];
 
+  var _useState19 = Object(react__WEBPACK_IMPORTED_MODULE_0__["useState"])(false),
+      _useState20 = _slicedToArray(_useState19, 2),
+      raceCompleted = _useState20[0],
+      setRaceCompleted = _useState20[1];
+
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     setRaceParagraph(dummyData);
   }, []);
@@ -231,12 +236,18 @@ function SingleRace() {
   }, [timer]);
   Object(react__WEBPACK_IMPORTED_MODULE_0__["useEffect"])(function () {
     if (racing === true) {
+      var startTime = new Date();
+      var endTime = new Date();
+      endTime.setSeconds(startTime.getSeconds() + 30);
       var raceTimer = setInterval(function () {
-        setTimer(timer -= 1);
+        var timeLeft = (endTime - new Date()) / 1000;
+        setTimer(timeLeft);
         setTimeElapsed(timeElapsed += 1);
       }, 1000);
       setTimeout(function () {
         clearInterval(raceTimer);
+        setRacing(false);
+        setRaceCompleted(true);
       }, 30000);
     }
   }, [racing]);
@@ -259,21 +270,7 @@ function SingleRace() {
         setCurrentlyTyped('');
       }
     }
-  } // function startRace() {
-  //   setRacing(true);
-  //   // let WPMtimer = setInterval(() => {
-  //   //   setWPM(Math.round((wordsTyped / timeElapsed) * 60));
-  //   // }, 2000);
-  //   let raceTimer = setInterval(() => {
-  //     setTimer((timer -= 1));
-  //     setTimeElapsed((timeElapsed += 1));
-  //   }, 1000);
-  //   setTimeout(() => {
-  //     clearInterval(raceTimer);
-  //     // clearInterval(WPMtimer);
-  //   }, 30000);
-  // }
-
+  }
 
   return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("main", {
     id: "single-race"
@@ -294,7 +291,7 @@ function SingleRace() {
     onClick: function onClick() {
       return setRacing(true);
     }
-  }, "Start") : null);
+  }, "Start") : null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("br", null), raceCompleted === true ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null) : null);
 }
 
 /* harmony default export */ __webpack_exports__["default"] = (SingleRace);

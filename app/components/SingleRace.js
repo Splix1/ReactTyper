@@ -44,6 +44,7 @@ function SingleRace() {
   let [timer, setTimer] = useState(30);
   let [timeElapsed, setTimeElapsed] = useState(0);
   let [racing, setRacing] = useState(false);
+  let [raceCompleted, setRaceCompleted] = useState(false);
 
   useEffect(() => {
     setRaceParagraph(dummyData);
@@ -61,13 +62,19 @@ function SingleRace() {
 
   useEffect(() => {
     if (racing === true) {
+      let startTime = new Date();
+      let endTime = new Date();
+      endTime.setSeconds(startTime.getSeconds() + 30);
       let raceTimer = setInterval(() => {
-        setTimer((timer -= 1));
+        let timeLeft = (endTime - new Date()) / 1000;
+        setTimer(timeLeft);
         setTimeElapsed((timeElapsed += 1));
       }, 1000);
 
       setTimeout(() => {
         clearInterval(raceTimer);
+        setRacing(false);
+        setRaceCompleted(true);
       }, 30000);
     }
   }, [racing]);
@@ -92,24 +99,6 @@ function SingleRace() {
     }
   }
 
-  // function startRace() {
-  //   setRacing(true);
-
-  //   // let WPMtimer = setInterval(() => {
-  //   //   setWPM(Math.round((wordsTyped / timeElapsed) * 60));
-  //   // }, 2000);
-
-  //   let raceTimer = setInterval(() => {
-  //     setTimer((timer -= 1));
-  //     setTimeElapsed((timeElapsed += 1));
-  //   }, 1000);
-
-  //   setTimeout(() => {
-  //     clearInterval(raceTimer);
-  //     // clearInterval(WPMtimer);
-  //   }, 30000);
-  // }
-
   return (
     <main id="single-race">
       <div>WPM: {isNaN(WPM) ? 0 : WPM}</div>
@@ -129,6 +118,8 @@ function SingleRace() {
       {racing === false ? (
         <button onClick={() => setRacing(true)}>Start</button>
       ) : null}
+      <br></br>
+      {raceCompleted === true ? <div></div> : null}
     </main>
   );
 }
