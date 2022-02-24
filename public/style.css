@@ -3,14 +3,100 @@
   font-family: arial, sans-serif;
 }
 
+html,
+body,
+#main,
+#react-typer > main {
+  margin: 0;
+  height: 100%;
+  align-items: center;
+}
+
+#race > main {
+  margin: 0;
+  height: 50%;
+  align-items: center;
+}
+
 body {
   background: #282828;
   color: #c0c0c0;
 }
 
 main {
-  align-items: center;
+  top: 30%;
+  flex: 1;
+}
+
+div#main {
   display: flex;
   flex-direction: column;
   justify-content: center;
+}
+
+div#main > div {
+  top: 10%;
+  flex-grow: 1;
+  position: absolute;
+  justify-content: space-between;
+}
+
+#single-race {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-wrap: wrap;
+}
+
+main#single-race > div {
+  font-size: 25px;
+}
+
+#start-button {
+  background-color: green;
+  border-color: green;
+  cursor: pointer;
+}
+
+#race-paragraph {
+  border-style: solid;
+  border-radius: 15px;
+  border-color: gray;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  height: 100px;
+  font-size: 25px;
+  width: 50rem;
+  overflow: hidden;
+}
+
+span {
+  margin: 10px;
+  flex-grow: 1;
+}
+
+#current-word {
+  background-color: gold;
+}
+
+#start-text {
+  font-style: italic;
+}
+
+#start {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+#currently-typed {
+  width: 25rem;
+}
+
+.race-ending {
+  color: red;
 }

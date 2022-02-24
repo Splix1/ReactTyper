@@ -6,9 +6,9 @@ import SingleRace from './SingleRace';
 const Routes = () => {
   return (
     <Router>
-      <div>
+      <div id="react-typer">
         <nav></nav>
-        <main>
+        <main id="race">
           <Route exact path="/" component={Home} />
           <Route exact path="/singlerace" component={SingleRace} />
         </main>

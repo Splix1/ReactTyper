@@ -32,6 +32,37 @@ let dummyData = [
   'caught',
   'a',
   'fish',
+  'you',
+  'know',
+  'when',
+  'I',
+  'was',
+  'your',
+  'age',
+  'I',
+  'went',
+  'out',
+  'to',
+  'fishing',
+  'with',
+  'all',
+  'my',
+  'brothers',
+  'and',
+  'my',
+  'father',
+  'and',
+  'everybody',
+  'and',
+  'I',
+  'was',
+  'the',
+  'only',
+  'one',
+  'who',
+  'caught',
+  'a',
+  'fish',
 ];
 
 function SingleRace() {
@@ -56,18 +87,14 @@ function SingleRace() {
 
   useEffect(() => {
     if (timer % 2 === 0) {
-      setWPM(Math.round((wordsTyped / timeElapsed) * 60));
+      setWPM(Math.round((wordsTyped / timeElapsed) * 60) || 0);
     }
   }, [timer]);
 
   useEffect(() => {
     if (racing) {
-      let startTime = new Date();
-      let endTime = new Date();
-      endTime.setSeconds(startTime.getSeconds() + 30);
       let raceTimer = setInterval(() => {
-        let timeLeft = (endTime - new Date()) / 1000;
-        setTimer(timeLeft);
+        setTimer((timer -= 1));
         setTimeElapsed((timeElapsed += 1));
       }, 1000);
 
@@ -89,7 +116,7 @@ function SingleRace() {
     if (e.keyCode === 32) {
       if (currentlyTyped === currentWord) {
         setCharactersTyped(charactersTyped + (currentlyTyped.length + 1));
-        setWordsTyped(Math.round(charactersTyped / 5));
+        setWordsTyped(Math.floor(charactersTyped / 5));
         setRaceParagraph(raceParagraph.slice(1));
         setCurrentlyTyped('');
       } else {
@@ -101,23 +128,55 @@ function SingleRace() {
 
   return (
     <main id="single-race">
-      <div>WPM: {isNaN(WPM) ? 0 : WPM}</div>
-      <div>Time left: {timer}</div>
+      <div>WPM: {WPM}</div>
+      <div>
+        {timer <= 10 ? (
+          <div className="race-ending">Time left: {timer}</div>
+        ) : (
+          <div>Time left: {timer}</div>
+        )}
+      </div>
       <div id="race-paragraph">
         {' '}
-        <p>{raceParagraph.join(' ')}</p>
+        {raceParagraph.map((word, i) => {
+          if (i === 0) {
+            return (
+              <span wordnumber={i} id="current-word" key={i}>
+                {word}
+              </span>
+            );
+          } else {
+            return (
+              <span wordnumber={i} key={i}>
+                {word}
+              </span>
+            );
+          }
+        })}
       </div>
-      <input
-        id="currently-typed"
-        name="currently-typed"
-        type="text"
-        value={currentlyTyped}
-        onChange={(e) => handleChange(e)}
-        onKeyDown={(e) => handleSpace(e)}
-      ></input>
-      {racing === false ? (
-        <button onClick={() => setRacing(true)}>Start</button>
+      {racing === true ? (
+        <input
+          id="currently-typed"
+          name="currently-typed"
+          type="text"
+          autoFocus
+          value={currentlyTyped}
+          onChange={(e) => handleChange(e)}
+          onKeyDown={(e) => handleSpace(e)}
+        ></input>
       ) : null}
+      {racing === false && raceCompleted !== true ? (
+        <div id="start">
+          <p>
+            <button id="start-button" onClick={() => setRacing(true)}>
+              <p>Start 🏁</p>
+            </button>
+          </p>
+          <p id="start-text">The race will begin once you click Start</p>
+        </div>
+      ) : (
+        <img src="https://cdn.discordapp.com/emojis/925220507241033849.gif?size=96&quality=lossless" />
+      )}
       <br></br>
       {raceCompleted === true ? <div></div> : null}
     </main>
