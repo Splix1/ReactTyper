@@ -154,7 +154,7 @@ function SingleRace() {
           </p>
           <p id="start-text">The race will begin once you click Start</p>
         </div>
-      ) : raceCompleted !== true && WPM >= 100 ? (
+      ) : raceCompleted !== true && WPM > 60 ? (
         <img src="https://cdn.discordapp.com/emojis/925220507241033849.gif?size=96&quality=lossless" />
       ) : raceCompleted !== true && WPM <= 60 ? (
         <img src="https://cdn.discordapp.com/emojis/863005286951550996.webp?size=96&quality=lossless" />

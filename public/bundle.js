@@ -419,7 +419,7 @@ function SingleRace() {
     }
   }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", null, "Start \uD83C\uDFC1"))), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("p", {
     id: "start-text"
-  }, "The race will begin once you click Start")) : raceCompleted !== true && WPM >= 100 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
+  }, "The race will begin once you click Start")) : raceCompleted !== true && WPM > 60 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: "https://cdn.discordapp.com/emojis/925220507241033849.gif?size=96&quality=lossless"
   }) : raceCompleted !== true && WPM <= 60 ? /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("img", {
     src: "https://cdn.discordapp.com/emojis/863005286951550996.webp?size=96&quality=lossless"
