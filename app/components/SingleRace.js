@@ -1,69 +1,5 @@
 import React, { useState, useEffect } from 'react';
-
-let dummyData = [
-  'you',
-  'know',
-  'when',
-  'I',
-  'was',
-  'your',
-  'age',
-  'I',
-  'went',
-  'out',
-  'to',
-  'fishing',
-  'with',
-  'all',
-  'my',
-  'brothers',
-  'and',
-  'my',
-  'father',
-  'and',
-  'everybody',
-  'and',
-  'I',
-  'was',
-  'the',
-  'only',
-  'one',
-  'who',
-  'caught',
-  'a',
-  'fish',
-  'you',
-  'know',
-  'when',
-  'I',
-  'was',
-  'your',
-  'age',
-  'I',
-  'went',
-  'out',
-  'to',
-  'fishing',
-  'with',
-  'all',
-  'my',
-  'brothers',
-  'and',
-  'my',
-  'father',
-  'and',
-  'everybody',
-  'and',
-  'I',
-  'was',
-  'the',
-  'only',
-  'one',
-  'who',
-  'caught',
-  'a',
-  'fish',
-];
+import randomWords from '../../public/randomwords';
 
 function SingleRace() {
   let [raceParagraph, setRaceParagraph] = useState([]);
@@ -76,23 +12,41 @@ function SingleRace() {
   let [timeElapsed, setTimeElapsed] = useState(0);
   let [racing, setRacing] = useState(false);
   let [raceCompleted, setRaceCompleted] = useState(false);
+  let [allWPMs, setallWPMs] = useState([]);
+  let [averageWPM, setAverageWPM] = useState(0);
+  let [wrongWords, setWrongWords] = useState([]);
+  let [displayWrongWords, setDisplayWrongWords] = useState(false);
 
   useEffect(() => {
-    setRaceParagraph(dummyData);
-  }, []);
+    if (racing === true) {
+      setTimer((timer += timeElapsed));
+      //this was Jeffy's idea
+      setTimeElapsed((timeElapsed *= 0));
+      function shuffle(array) {
+        let currentIndex = array.length,
+          randomIndex;
 
-  useEffect(() => {
-    setCurrentWord(raceParagraph[0]);
-  }, [raceParagraph]);
+        while (currentIndex != 0) {
+          randomIndex = Math.floor(Math.random() * currentIndex);
+          currentIndex--;
+          [array[currentIndex], array[randomIndex]] = [
+            array[randomIndex],
+            array[currentIndex],
+          ];
+        }
 
-  useEffect(() => {
-    if (timer % 2 === 0) {
-      setWPM(Math.round((wordsTyped / timeElapsed) * 60) || 0);
-    }
-  }, [timer]);
-
-  useEffect(() => {
-    if (racing) {
+        return array;
+      }
+      setRaceParagraph(shuffle(randomWords));
+      setRaceCompleted(false);
+      setWordsTyped(0);
+      setCharactersTyped(0);
+      setallWPMs([]);
+      setAverageWPM(0);
+      setWrongWords([]);
+      setDisplayWrongWords(false);
+      setWPM(0);
+      setCurrentlyTyped('');
       let raceTimer = setInterval(() => {
         setTimer((timer -= 1));
         setTimeElapsed((timeElapsed += 1));
@@ -105,6 +59,26 @@ function SingleRace() {
       }, 30000);
     }
   }, [racing]);
+
+  useEffect(() => {
+    setCurrentWord(raceParagraph[0]);
+  }, [raceParagraph]);
+
+  useEffect(() => {
+    if (timer % 2 === 0) {
+      setWPM(Math.round((wordsTyped / timeElapsed) * 60) || 0);
+      setallWPMs([
+        ...allWPMs,
+        Math.round((wordsTyped / timeElapsed) * 60) || 0,
+      ]);
+      let average = 0;
+      for (let i = 0; i < allWPMs.length; i++) {
+        average += allWPMs[i];
+      }
+      average = average / allWPMs.length;
+      setAverageWPM(Math.round(average));
+    }
+  }, [timer]);
 
   function handleChange(e) {
     if (e.target.value.slice(-1) !== ' ') {
@@ -120,10 +94,16 @@ function SingleRace() {
         setRaceParagraph(raceParagraph.slice(1));
         setCurrentlyTyped('');
       } else {
+        setWrongWords([...wrongWords, currentlyTyped]);
         setRaceParagraph(raceParagraph.slice(1));
         setCurrentlyTyped('');
       }
     }
+  }
+
+  function showWrongWords(e) {
+    e.preventDefault();
+    setDisplayWrongWords(!displayWrongWords);
   }
 
   return (
@@ -174,11 +154,50 @@ function SingleRace() {
           </p>
           <p id="start-text">The race will begin once you click Start</p>
         </div>
-      ) : (
+      ) : raceCompleted !== true && WPM >= 100 ? (
         <img src="https://cdn.discordapp.com/emojis/925220507241033849.gif?size=96&quality=lossless" />
+      ) : raceCompleted !== true && WPM < 100 ? (
+        <img src="https://cdn.discordapp.com/emojis/863005286951550996.webp?size=96&quality=lossless" />
+      ) : (
+        <div id="start">
+          <p>
+            <button id="start-button" onClick={() => setRacing(true)}>
+              <p>Play again 🏁</p>
+            </button>
+          </p>
+          <p id="start-text">The race will begin once you click Start</p>
+        </div>
       )}
       <br></br>
-      {raceCompleted === true ? <div></div> : null}
+      {raceCompleted === true && displayWrongWords === true ? (
+        <div id="wrong-words">
+          Wrong words:
+          {wrongWords.map((word, i) => {
+            return (
+              <span key={i} className="wrong-word">
+                {word}
+              </span>
+            );
+          })}
+        </div>
+      ) : null}
+      {raceCompleted === true ? (
+        <div id="race-stats">
+          <div id="race-types">
+            <div>WPM:</div>
+            <div>Average WPM:</div>
+            <div>Correct words:</div>
+            <div>Wrong words:</div>
+            <button onClick={(e) => showWrongWords(e)}>See wrong words</button>
+          </div>
+          <div id="stats">
+            <div>{WPM}</div>
+            <div>{averageWPM}</div>
+            <div>{wordsTyped}</div>
+            <div>{wrongWords.length}</div>
+          </div>
+        </div>
+      ) : null}
     </main>
   );
 }

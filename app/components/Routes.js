@@ -1,16 +1,22 @@
 import React from 'react';
-import { BrowserRouter as Router, Route } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from './Home';
 import SingleRace from './SingleRace';
+import NavBar from './NavBar';
 
 const Routes = () => {
   return (
     <Router>
       <div id="react-typer">
-        <nav></nav>
+        <nav>
+          <NavBar />
+        </nav>
         <main id="race">
-          <Route exact path="/" component={Home} />
-          <Route exact path="/singlerace" component={SingleRace} />
+          <Switch>
+            <Route exact path="/" component={Home} />
+            <Route exact path="/singlesprint" component={SingleRace} />
+            <Route path="*" component={Home} />
+          </Switch>
         </main>
       </div>
     </Router>

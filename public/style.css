@@ -12,6 +12,10 @@ body,
   align-items: center;
 }
 
+#react-typer > nav {
+  width: 1000px;
+}
+
 #race > main {
   margin: 0;
   height: 50%;
@@ -19,7 +23,7 @@ body,
 }
 
 body {
-  background: #282828;
+  background: linear-gradient(to right, #000, rgb(55, 56, 56), #696969);
   color: #c0c0c0;
 }
 
@@ -35,7 +39,7 @@ div#main {
 }
 
 div#main > div {
-  top: 10%;
+  top: 0%;
   flex-grow: 1;
   position: absolute;
   justify-content: space-between;
@@ -79,7 +83,8 @@ span {
 }
 
 #current-word {
-  background-color: gold;
+  background-color: rgb(124, 14, 14);
+  color: white;
 }
 
 #start-text {
@@ -98,5 +103,76 @@ span {
 }
 
 .race-ending {
+  color: red;
+}
+
+#race-stats {
+  display: flex;
+  flex-direction: row;
+  width: 20rem;
+  border-style: solid;
+  border-radius: 15px;
+  border-color: purple;
+  padding: 2rem;
+}
+
+#race-stats > div {
+  justify-content: space-around;
+  flex-direction: column;
+}
+
+#stats {
+  display: flex;
+  flex-grow: 1;
+  align-items: flex-end;
+}
+
+nav {
+  align-items: center;
+  background-color: #333333;
+  color: #c0c0c0;
+  display: flex;
+  height: 80px;
+  padding: 10px;
+  justify-content: space-around;
+  top: 0%;
+  z-index: 1;
+  border-radius: 50px;
+}
+
+nav > div {
+  align-items: center;
+  display: flex;
+  flex-grow: 1;
+  justify-content: space-around;
+  padding: 10px;
+  font-size: 30px;
+  height: 80px;
+  color: #c0c0c0;
+}
+
+.inactive {
+  text-decoration: none;
+  color: white;
+}
+
+.active {
+  text-decoration: none;
+  color: orange;
+}
+
+#wrong-words {
+  width: 20rem;
+  border-style: solid;
+  border-radius: 15px;
+  border-color: red;
+  padding: 2rem;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.wrong-word {
   color: red;
 }
