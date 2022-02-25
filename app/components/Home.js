@@ -8,9 +8,5 @@ export default function Home() {
     history.push('/');
   }, []);
 
-  return (
-    <main>
-      <div>Test your speed!</div>
-    </main>
-  );
+  return <main></main>;
 }

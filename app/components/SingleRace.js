@@ -156,7 +156,7 @@ function SingleRace() {
         </div>
       ) : raceCompleted !== true && WPM >= 100 ? (
         <img src="https://cdn.discordapp.com/emojis/925220507241033849.gif?size=96&quality=lossless" />
-      ) : raceCompleted !== true && WPM < 100 ? (
+      ) : raceCompleted !== true && WPM <= 60 ? (
         <img src="https://cdn.discordapp.com/emojis/863005286951550996.webp?size=96&quality=lossless" />
       ) : (
         <div id="start">
@@ -172,6 +172,7 @@ function SingleRace() {
       {raceCompleted === true && displayWrongWords === true ? (
         <div id="wrong-words">
           Wrong words:
+          <br></br>
           {wrongWords.map((word, i) => {
             return (
               <span key={i} className="wrong-word">
