@@ -1,11 +1,12 @@
 {
-  "name": "reacttyper",
+  "name": "typefaster",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
+    "seed": "node script/seed.js",
     "start-dev": "webpack -w & nodemon server",
-    "start-windows": "nodemon server",
+    "start-windows": "nodemon server -e html,js,scss --ignore public --ignore client",
     "build": "webpack",
     "build:dev": "npm run build -- --watch --mode=development",
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -14,7 +15,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^5.0.1",
     "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
     "morgan": "^1.10.0",
     "pg": "^8.3.2",
     "sequelize": "^6.3.4"
