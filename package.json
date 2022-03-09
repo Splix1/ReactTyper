@@ -5,6 +5,9 @@
   "main": "index.js",
   "scripts": {
     "start-dev": "webpack -w & nodemon server",
+    "start-windows": "nodemon server",
+    "build": "webpack",
+    "build:dev": "npm run build -- --watch --mode=development",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
