@@ -19,9 +19,8 @@ function SingleRace() {
 
   useEffect(() => {
     if (racing === true) {
-      setTimer((timer += timeElapsed));
-      //this was Jeffy's idea
-      setTimeElapsed((timeElapsed *= 0));
+      setTimer(30);
+      setTimeElapsed(0);
       function shuffle(array) {
         let currentIndex = array.length,
           randomIndex;
@@ -47,9 +46,10 @@ function SingleRace() {
       setDisplayWrongWords(false);
       setWPM(0);
       setCurrentlyTyped('');
+
       let raceTimer = setInterval(() => {
-        setTimer((timer -= 1));
-        setTimeElapsed((timeElapsed += 1));
+        setTimer((timer) => timer - 1);
+        setTimeElapsed((timeElapsed) => timeElapsed + 1);
       }, 1000);
 
       setTimeout(() => {
