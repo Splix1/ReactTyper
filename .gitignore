@@ -1,13 +1,6 @@
-# Ignore all node_modules
-node_modules/*
-
-# NPM errors
+node_modules
+bundle.js
+bundle.js.map
 npm-debug.log
-
-# OSX
 .DS_Store
-
-# Vim stuff
 *.swp
-
-.DS_Store
