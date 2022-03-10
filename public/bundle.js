@@ -86,10 +86,10 @@
 /************************************************************************/
 /******/ ({
 
-/***/ "./app/components/Home.js":
-/*!********************************!*\
-  !*** ./app/components/Home.js ***!
-  \********************************/
+/***/ "./client/components/Home.js":
+/*!***********************************!*\
+  !*** ./client/components/Home.js ***!
+  \***********************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -111,10 +111,10 @@ function Home() {
 
 /***/ }),
 
-/***/ "./app/components/NavBar.js":
-/*!**********************************!*\
-  !*** ./app/components/NavBar.js ***!
-  \**********************************/
+/***/ "./client/components/NavBar.js":
+/*!*************************************!*\
+  !*** ./client/components/NavBar.js ***!
+  \*************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -144,10 +144,10 @@ function NavBar() {
 
 /***/ }),
 
-/***/ "./app/components/Routes.js":
-/*!**********************************!*\
-  !*** ./app/components/Routes.js ***!
-  \**********************************/
+/***/ "./client/components/Routes.js":
+/*!*************************************!*\
+  !*** ./client/components/Routes.js ***!
+  \*************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -156,9 +156,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-/* harmony import */ var _Home__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Home */ "./app/components/Home.js");
-/* harmony import */ var _SingleRace__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SingleRace */ "./app/components/SingleRace.js");
-/* harmony import */ var _NavBar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./NavBar */ "./app/components/NavBar.js");
+/* harmony import */ var _Home__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Home */ "./client/components/Home.js");
+/* harmony import */ var _SingleRace__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./SingleRace */ "./client/components/SingleRace.js");
+/* harmony import */ var _NavBar__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./NavBar */ "./client/components/NavBar.js");
 
 
 
@@ -188,10 +188,10 @@ var Routes = function Routes() {
 
 /***/ }),
 
-/***/ "./app/components/SingleRace.js":
-/*!**************************************!*\
-  !*** ./app/components/SingleRace.js ***!
-  \**************************************/
+/***/ "./client/components/SingleRace.js":
+/*!*****************************************!*\
+  !*** ./client/components/SingleRace.js ***!
+  \*****************************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -459,10 +459,10 @@ function SingleRace() {
 
 /***/ }),
 
-/***/ "./app/main.js":
-/*!*********************!*\
-  !*** ./app/main.js ***!
-  \*********************/
+/***/ "./client/main.js":
+/*!************************!*\
+  !*** ./client/main.js ***!
+  \************************/
 /*! no exports provided */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -473,8 +473,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _components_Routes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Routes */ "./app/components/Routes.js");
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./store */ "./app/store.js");
+/* harmony import */ var _components_Routes__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./components/Routes */ "./client/components/Routes.js");
+/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./store */ "./client/store.js");
 
 
 
@@ -486,10 +486,10 @@ react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEB
 
 /***/ }),
 
-/***/ "./app/redux/index.js":
-/*!****************************!*\
-  !*** ./app/redux/index.js ***!
-  \****************************/
+/***/ "./client/redux/index.js":
+/*!*******************************!*\
+  !*** ./client/redux/index.js ***!
+  \*******************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -502,10 +502,10 @@ var appReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
 
 /***/ }),
 
-/***/ "./app/store.js":
-/*!**********************!*\
-  !*** ./app/store.js ***!
-  \**********************/
+/***/ "./client/store.js":
+/*!*************************!*\
+  !*** ./client/store.js ***!
+  \*************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -513,7 +513,7 @@ var appReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"])({
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var redux__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! redux */ "./node_modules/redux/es/redux.js");
 /* harmony import */ var redux_thunk__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! redux-thunk */ "./node_modules/redux-thunk/es/index.js");
-/* harmony import */ var _redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./redux */ "./app/redux/index.js");
+/* harmony import */ var _redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./redux */ "./client/redux/index.js");
 
 
 
@@ -35953,13 +35953,13 @@ var randomWords = ['we', 'children', 'through', 'in', 'family', 'little', 'right
 /***/ }),
 
 /***/ 0:
-/*!***************************!*\
-  !*** multi ./app/main.js ***!
-  \***************************/
+/*!******************************!*\
+  !*** multi ./client/main.js ***!
+  \******************************/
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! ./app/main.js */"./app/main.js");
+module.exports = __webpack_require__(/*! ./client/main.js */"./client/main.js");
 
 
 /***/ })
