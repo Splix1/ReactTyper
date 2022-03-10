@@ -10,5 +10,6 @@
 - Single/Multiplayer Race (timed completion of a set of text containing punctuation/capitalization)
 - Single/Multiplayer React Sprint (similar to sprint, but you're only given one word at a time, preventing you from reading ahead)
 - Single/Multiplayer React Race (similar to race, but you're only given one word at a time)
+- Single/Multiplayer Marathon (similar to sprint, but you have a health bar that goes down for each wrong word and the game ends when your health reaches 0)
 
 ### ReactTyper will also include user authentication to allow dynamically tracking user stats including a leaderboard showing the highest scores for each mode.
