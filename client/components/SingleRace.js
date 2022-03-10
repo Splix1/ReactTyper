@@ -183,20 +183,23 @@ function SingleRace() {
         </div>
       ) : null}
       {raceCompleted === true ? (
-        <div id="race-stats">
-          <div id="race-types">
-            <div>WPM:</div>
-            <div>Average WPM:</div>
-            <div>Correct words:</div>
-            <div>Wrong words:</div>
-            <button onClick={(e) => showWrongWords(e)}>See wrong words</button>
+        <div>
+          <div id="race-stats">
+            <div id="race-types">
+              <div>WPM:</div>
+              <div>Average WPM:</div>
+              <div>Correct words:</div>
+              <div>Wrong words:</div>
+            </div>
+            <div id="stats">
+              <div>{WPM}</div>
+              <div>{averageWPM}</div>
+              <div>{wordsTyped}</div>
+              <div>{wrongWords.length}</div>
+              <div></div>
+            </div>
           </div>
-          <div id="stats">
-            <div>{WPM}</div>
-            <div>{averageWPM}</div>
-            <div>{wordsTyped}</div>
-            <div>{wrongWords.length}</div>
-          </div>
+          <button onClick={(e) => showWrongWords(e)}>See wrong words</button>
         </div>
       ) : null}
     </main>

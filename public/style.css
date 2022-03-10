@@ -5,15 +5,14 @@
 
 html,
 body,
-#main,
-#react-typer > main {
+#react-typer {
   margin: 0;
   height: 100%;
   align-items: center;
 }
 
 #react-typer > nav {
-  width: 1000px;
+  width: 100%;
 }
 
 #race > main {
@@ -30,19 +29,6 @@ body {
 main {
   top: 30%;
   flex: 1;
-}
-
-div#main {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-div#main > div {
-  top: 0%;
-  flex-grow: 1;
-  position: absolute;
-  justify-content: space-between;
 }
 
 #single-race {
@@ -138,17 +124,7 @@ nav {
   top: 0%;
   z-index: 1;
   border-radius: 50px;
-}
-
-nav > div {
-  align-items: center;
-  display: flex;
-  flex-grow: 1;
-  justify-content: space-around;
-  padding: 10px;
   font-size: 30px;
-  height: 80px;
-  color: #c0c0c0;
 }
 
 .inactive {
