@@ -1,17 +1,45 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import Home from './components/Home';
 import SingleRace from './components/SingleRace';
+import { me } from './redux';
+import Login from './components/Login';
+import Signup from './components/Signup';
+import SprintRace from './components/SprintRace';
 
 const Routes = () => {
+  const dispatch = useDispatch();
+
+  const isLoggedIn = useSelector((state) => {
+    return !!state.auth.id;
+  });
+
+  useEffect(() => {
+    dispatch(me());
+  }, []);
+
   return (
     <div>
-      <Switch>
-        <Route exact path="/" component={Home} />
-        <Route exact path="/home" component={Home} />
-        <Route exact path="/singlesprint" component={SingleRace} />
-        <Route path="*" component={Home} />
-      </Switch>
+      {isLoggedIn ? (
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/home" component={Home} />
+          <Route exact path="/singlesprint" component={SingleRace} />
+          <Route exact path="/sprintrace" component={SprintRace} />
+          <Route path="*" component={Home} />
+        </Switch>
+      ) : (
+        <Switch>
+          <Route exact path="/" component={Home} />
+          <Route exact path="/home" component={Home} />
+          <Route exact path="/singlesprint" component={SingleRace} />
+          <Route exact path="/sprintrace" component={SprintRace} />
+          <Route path="/login" component={Login} />
+          <Route path="/signup" component={Signup} />
+          <Route path="*" component={Home} />
+        </Switch>
+      )}
     </div>
   );
 };
