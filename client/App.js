@@ -1,11 +1,11 @@
 import React from 'react';
-import Navbar from './components/Navbar';
+import NavBar from './components/NavBar';
 import Routes from './Routes';
 
 const App = () => {
   return (
     <div>
-      <Navbar />
+      <NavBar />
       <Routes />
     </div>
   );

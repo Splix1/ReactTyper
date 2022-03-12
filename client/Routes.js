@@ -6,6 +6,7 @@ import SingleRace from './components/SingleRace';
 import { me } from './redux';
 import Login from './components/Login';
 import Signup from './components/Signup';
+import SprintRace from './components/SprintRace';
 
 const Routes = () => {
   const dispatch = useDispatch();
@@ -25,6 +26,7 @@ const Routes = () => {
           <Route exact path="/" component={Home} />
           <Route exact path="/home" component={Home} />
           <Route exact path="/singlesprint" component={SingleRace} />
+          <Route exact path="/sprintrace" component={SprintRace} />
           <Route path="*" component={Home} />
         </Switch>
       ) : (
@@ -32,6 +34,7 @@ const Routes = () => {
           <Route exact path="/" component={Home} />
           <Route exact path="/home" component={Home} />
           <Route exact path="/singlesprint" component={SingleRace} />
+          <Route exact path="/sprintrace" component={SprintRace} />
           <Route path="/login" component={Login} />
           <Route path="/signup" component={Signup} />
           <Route path="*" component={Home} />
