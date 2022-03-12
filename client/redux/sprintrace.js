@@ -1,16 +1,18 @@
 import axios from 'axios';
 
-const SET_WORDS = 'SET_WORDS';
+const ADD_PLAYER = 'ADD_PLAYER';
 
-export const setWords = (words) => ({
-  type: SET_WORDS,
-  words,
-});
-
-export default function (state = {}, action) {
-  switch (action.type) {
-    case SET_WORDS: {
+export const addPlayer = (player) => {
+  return async (dispatch) => {
+    try {
+    } catch (err) {
+      console.log('Failed to add player');
     }
+  };
+};
+
+export default function (state = [], action) {
+  switch (action.type) {
     default:
       return state;
   }

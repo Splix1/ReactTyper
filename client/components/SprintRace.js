@@ -1,7 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import randomWords from '../../public/randomwords';
-import { setWords } from '../redux/sprintrace';
+import axios from 'axios';
+import { useLocation } from 'react-router-dom';
+import socket from '../socket';
 
 function SprintRace() {
   let [raceParagraph, setRaceParagraph] = useState([]);
@@ -18,28 +20,74 @@ function SprintRace() {
   let [averageWPM, setAverageWPM] = useState(0);
   let [wrongWords, setWrongWords] = useState([]);
   let [displayWrongWords, setDisplayWrongWords] = useState(false);
-  let dispatch = useDispatch();
+  let [results, setResults] = useState([]);
+  let [raceId, setRaceId] = useState(0);
+  let user = useSelector((state) => state.auth);
+  let location = useLocation();
+
+  socket.on('start-race', (race) => {
+    if (location.search === race.rid && racing === false) {
+      setRaceParagraph(race.words);
+      setRacing(!racing);
+      setRaceId(race.raceId);
+    }
+  });
+
+  async function startRace() {
+    function shuffle(array) {
+      let currentIndex = array.length,
+        randomIndex;
+
+      while (currentIndex != 0) {
+        randomIndex = Math.floor(Math.random() * currentIndex);
+        currentIndex--;
+        [array[currentIndex], array[randomIndex]] = [
+          array[randomIndex],
+          array[currentIndex],
+        ];
+      }
+
+      return array;
+    }
+    let words = shuffle(randomWords);
+    setRaceParagraph(words);
+    setRacing(!racing);
+    let { data } = await axios.post('/api/scores/newrace');
+    setRaceId(data.id);
+
+    socket.emit('start-race', { words, rid: location.search, raceId: data.id });
+  }
+
+  useEffect(() => {
+    if (raceCompleted === true) {
+      async function fetchScores() {
+        let score = {
+          WPM,
+          userId: user.id,
+          timeElapsed: 30,
+          wordsTyped,
+          mode: 'sprintrace',
+          raceId,
+        };
+        await axios.post('/api/scores', score);
+        setTimeout(async () => {
+          let scores = await axios.get('/api/scores/sprintraceresults', {
+            headers: {
+              raceId,
+            },
+          });
+          let { data } = scores;
+          setResults(data.sort((a, b) => b.wpm - a.wpm));
+        }, 1000);
+      }
+      fetchScores();
+    }
+  }, [raceCompleted]);
 
   useEffect(() => {
     if (racing === true) {
       setTimer(30);
       setTimeElapsed(0);
-      function shuffle(array) {
-        let currentIndex = array.length,
-          randomIndex;
-
-        while (currentIndex != 0) {
-          randomIndex = Math.floor(Math.random() * currentIndex);
-          currentIndex--;
-          [array[currentIndex], array[randomIndex]] = [
-            array[randomIndex],
-            array[currentIndex],
-          ];
-        }
-
-        return array;
-      }
-      dispatch(setWords(shuffle(randomWords)));
       setRaceCompleted(false);
       setWordsTyped(0);
       setCharactersTyped(0);
@@ -104,11 +152,6 @@ function SprintRace() {
     }
   }
 
-  function showWrongWords(e) {
-    e.preventDefault();
-    setDisplayWrongWords(!displayWrongWords);
-  }
-
   return (
     <main id="single-race">
       <div>WPM: {WPM}</div>
@@ -142,6 +185,9 @@ function SprintRace() {
           id="currently-typed"
           name="currently-typed"
           type="text"
+          autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="off"
           autoFocus
           value={currentlyTyped}
           onChange={(e) => handleChange(e)}
@@ -151,7 +197,7 @@ function SprintRace() {
       {racing === false && raceCompleted !== true ? (
         <div id="start">
           <p>
-            <button id="start-button" onClick={() => setRacing(true)}>
+            <button id="start-button" onClick={startRace}>
               <p>Start 🏁</p>
             </button>
           </p>
@@ -164,7 +210,7 @@ function SprintRace() {
       ) : (
         <div id="start">
           <p>
-            <button id="start-button" onClick={() => setRacing(true)}>
+            <button id="start-button" onClick={startRace}>
               <p>Play again 🏁</p>
             </button>
           </p>
@@ -172,37 +218,30 @@ function SprintRace() {
         </div>
       )}
       <br></br>
-      {raceCompleted === true && displayWrongWords === true ? (
-        <div id="wrong-words">
-          Wrong words:
-          <br></br>
-          {wrongWords.map((word, i) => {
-            return (
-              <span key={i} className="wrong-word">
-                {word}
-              </span>
-            );
-          })}
-        </div>
-      ) : null}
-      {raceCompleted === true ? (
-        <div>
-          <div id="race-stats">
-            <div id="race-types">
-              <div>WPM:</div>
-              <div>Average WPM:</div>
-              <div>Correct words:</div>
-              <div>Wrong words:</div>
-            </div>
-            <div id="stats">
-              <div>{WPM}</div>
-              <div>{averageWPM}</div>
-              <div>{wordsTyped}</div>
-              <div>{wrongWords.length}</div>
-              <div></div>
-            </div>
+      {results.length > 0 && raceCompleted === true ? (
+        <div id="race-results">
+          <h3 style={{ color: 'green' }}>
+            The winner is {results[0]['user'].username}!
+          </h3>
+          <div id="result-types">
+            <span>Rank</span>
+            <span>Name</span>
+            <span>WPM</span>
+            <span>Words Typed</span>
           </div>
-          <button onClick={(e) => showWrongWords(e)}>See wrong words</button>
+          <div className="race-result-list">
+            {results.map((result, i) => {
+              return (
+                <span className="race-result">
+                  <span>{i + 1}.</span>
+                  <span>{result['user'].username}</span>
+                  <span>
+                    {result.wpm}/{result.wordsTyped}
+                  </span>
+                </span>
+              );
+            })}
+          </div>
         </div>
       ) : null}
     </main>

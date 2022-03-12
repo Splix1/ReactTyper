@@ -2,6 +2,7 @@ const { db } = require('./db');
 const PORT = process.env.PORT || 8080;
 const app = require('./app');
 const seed = require('../script/seed');
+const Race = require('./db/models/Races');
 
 const init = async () => {
   try {
@@ -17,3 +18,16 @@ const init = async () => {
 };
 
 init();
+
+const io = require('socket.io')(3000, {
+  cors: {
+    origin: ['http://localhost:8080'],
+  },
+});
+
+io.on('connection', (socket) => {
+  console.log(socket.id);
+  socket.on('start-race', async (race) => {
+    socket.broadcast.emit('start-race', race);
+  });
+});

@@ -13,6 +13,26 @@ const Score = db.define('score', {
   timeelapsed: {
     type: Sequelize.INTEGER,
   },
+
+  wordsTyped: {
+    type: Sequelize.INTEGER,
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
+  },
+
+  mode: {
+    type: Sequelize.STRING,
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+    },
+  },
+
+  raceId: {
+    type: Sequelize.INTEGER,
+  },
 });
 
 module.exports = Score;
