@@ -29,6 +29,19 @@ function SprintRace() {
   let [countingDown, setCountingDown] = useState(false);
 
   useEffect(() => {
+    return () => {
+      if (raceCompleted === false) {
+        axios.delete('/api/scores/score', {
+          headers: {
+            userid: user.id,
+            raceid: raceId,
+          },
+        });
+      }
+    };
+  }, []);
+
+  useEffect(() => {
     let fetchingPlayers;
     if (raceId > 0 && racing === false && timer === 30) {
       fetchPlayers();
@@ -40,16 +53,6 @@ function SprintRace() {
         clearInterval(fetchingPlayers);
       }
     }
-    return async function cleanup() {
-      if (raceCompleted === false) {
-        await axios.delete('/api/scores/score', {
-          headers: {
-            userid: user.id,
-            raceid: raceId,
-          },
-        });
-      }
-    };
   }, [raceId, racing]);
 
   async function fetchPlayers() {
