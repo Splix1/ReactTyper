@@ -27,7 +27,7 @@ function SprintRace() {
   let [players, setPlayers] = useState([]);
   let [countdown, setCountdown] = useState(3);
   let [countingDown, setCountingDown] = useState(false);
-  let [startedRace, setStartedRace] = useState(false);
+  let [countingDownPlayers, setCountingDownPlayers] = useState(false);
 
   useEffect(() => {
     let fetchingPlayers;
@@ -137,13 +137,13 @@ function SprintRace() {
     let cdown;
     let ctimeout;
     if (location.search === race.rid && racing === false) {
-      setCountingDown(true);
+      setCountingDownPlayers(true);
       cdown = setInterval(() => {
         setCountdown((countdown -= 1));
       }, 1000);
       ctimeout = setTimeout(() => {
         clearInterval(cdown);
-        setCountingDown(false);
+        setCountingDownPlayers(false);
         setRaceParagraph(race.words);
         setRacing(true);
       }, 3000);
@@ -159,36 +159,36 @@ function SprintRace() {
     let cdown;
     let ctimeout;
     let words;
-    if (countingDown === true && startedRace === true) {
-      async function startRace() {
-        function shuffle(array) {
-          let currentIndex = array.length,
-            randomIndex;
+    async function startRace() {
+      function shuffle(array) {
+        let currentIndex = array.length,
+          randomIndex;
 
-          while (currentIndex != 0) {
-            randomIndex = Math.floor(Math.random() * currentIndex);
-            currentIndex--;
-            [array[currentIndex], array[randomIndex]] = [
-              array[randomIndex],
-              array[currentIndex],
-            ];
-          }
-
-          return array;
+        while (currentIndex != 0) {
+          randomIndex = Math.floor(Math.random() * currentIndex);
+          currentIndex--;
+          [array[currentIndex], array[randomIndex]] = [
+            array[randomIndex],
+            array[currentIndex],
+          ];
         }
-        words = shuffle(randomWords);
 
-        let { data } = await axios.get('/api/scores/roommatch', {
-          headers: {
-            roomid: +location.search.split('=')[1],
-          },
-        });
-        socket.emit('start-race', {
-          words,
-          rid: location.search,
-          raceId: data.id,
-        });
+        return array;
       }
+      words = shuffle(randomWords);
+
+      let { data } = await axios.get('/api/scores/roommatch', {
+        headers: {
+          roomid: +location.search.split('=')[1],
+        },
+      });
+      socket.emit('start-race', {
+        words,
+        rid: location.search,
+        raceId: data.id,
+      });
+    }
+    if (countingDown === true) {
       startRace();
       cdown = setInterval(() => {
         setCountdown((countdown) => countdown - 1);
@@ -352,13 +352,7 @@ function SprintRace() {
       {racing === false && raceCompleted !== true && countingDown === false ? (
         <div id="start">
           <p>
-            <button
-              id="start-button"
-              onClick={() => {
-                setStartedRace(true);
-                setCountingDown(true);
-              }}
-            >
+            <button id="start-button" onClick={() => setCountingDown(true)}>
               <p>Start 🏁</p>
             </button>
           </p>
@@ -368,7 +362,7 @@ function SprintRace() {
         <img src="https://cdn.discordapp.com/emojis/925220507241033849.gif?size=96&quality=lossless" />
       ) : raceCompleted !== true && WPM <= 60 && countingDown === false ? (
         <img src="https://cdn.discordapp.com/emojis/863005286951550996.webp?size=96&quality=lossless" />
-      ) : countingDown === true ? (
+      ) : countingDown === true || countingDownPlayers === true ? (
         <h1>{countdown}</h1>
       ) : (
         <div id="start">
