@@ -132,7 +132,7 @@ function SprintRace() {
   }, [user]);
 
   socket.once('start-race', (race) => {
-    console.log(bruh);
+    console.log('bruh');
     let cdown;
     let ctimeout;
     if (location.search === race.rid && racing === false) {
