@@ -183,3 +183,10 @@ nav {
   align-items: center;
   width: 500px;
 }
+
+#home-game-options {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
