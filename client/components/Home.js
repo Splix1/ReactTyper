@@ -8,5 +8,5 @@ export default function Home() {
     history.push('/');
   }, []);
 
-  return <main>a</main>;
+  return <main></main>;
 }
