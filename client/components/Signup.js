@@ -49,7 +49,7 @@ const Signup = () => {
         </div>
         <div>
           <label htmlFor="email">
-            <small>Email</small>
+            <small>Email{'   '}</small>
           </label>
           <input name="email" type="text" />
         </div>
@@ -57,7 +57,10 @@ const Signup = () => {
           <button type="submit">Sign Up</button>
         </div>
         <p>
-          Already have an account? <Link to="/login">Login</Link>
+          Already have an account?{' '}
+          <Link style={{ color: 'cyan', textDecoration: 'none' }} to="/login">
+            Login
+          </Link>
         </p>
         {error && error.response && (
           <div style={{ color: 'red' }}> {error.response.data} </div>

@@ -10,9 +10,9 @@ function Navbar() {
     return !!state.auth.id;
   });
 
-  // const { username, role } = useSelector((state) => {
-  //   return state.auth;
-  // });
+  const { username } = useSelector((state) => {
+    return state.auth;
+  });
 
   return (
     <div id="race">
@@ -29,34 +29,48 @@ function Navbar() {
             </NavLink>
           </div>
           <div>
-            <NavLink
-              exact
-              to="/singlesprint"
-              className={`inactive nav-button`}
-              activeClassName={'active'}
-            >
-              Single Sprint
-            </NavLink>
-          </div>
-          {isLoggedIn ? (
-            <a
-              href="#"
-              style={{ textDecoration: 'none', color: 'white' }}
-              onClick={() => dispatch(logout())}
-            >
-              Logout
-            </a>
-          ) : (
-            <div>
-              <NavLink
-                to="/login"
-                className={`inactive nav-button`}
-                activeClassName={'active'}
-              >
-                Login
-              </NavLink>
+            <div className="dropdown">
+              <div style={{ color: 'white' }}>Modes</div>
+              <div className="dropdown-content">
+                {isLoggedIn ? (
+                  <div>
+                    <NavLink to="/singlesprint">SingleSprint</NavLink>
+                    <NavLink to="/createsprintrace">SprintRace</NavLink>
+                  </div>
+                ) : (
+                  <NavLink to="/singlesprint">SingleSprint</NavLink>
+                )}
+              </div>
             </div>
-          )}
+          </div>
+          <div>
+            <div className="userDropdown">
+              {isLoggedIn ? (
+                <div>
+                  <div style={{ color: 'white' }}>{username}</div>
+                  <div className="userDropdown-content">
+                    <a
+                      href="#"
+                      style={{ textDecoration: 'none', color: 'white' }}
+                      onClick={() => dispatch(logout())}
+                    >
+                      Logout
+                    </a>
+                  </div>
+                </div>
+              ) : (
+                <div>
+                  <NavLink
+                    to="/login"
+                    className={`inactive nav-button`}
+                    activeClassName={'active'}
+                  >
+                    Login
+                  </NavLink>
+                </div>
+              )}
+            </div>
+          </div>
         </nav>
       </div>
     </div>

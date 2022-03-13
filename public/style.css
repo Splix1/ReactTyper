@@ -13,6 +13,8 @@ body,
 
 #react-typer > nav {
   width: 100%;
+  display: flex;
+  justify-content: space-evenly;
 }
 
 #race > main {
@@ -144,9 +146,8 @@ nav {
   border-color: red;
   padding: 2rem;
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
   flex-wrap: wrap;
-  justify-content: space-around;
 }
 
 .wrong-word {
@@ -184,9 +185,98 @@ nav {
   width: 500px;
 }
 
-#home-game-options {
+#sprintrace {
   display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
+  justify-content: center;
+}
+
+#sprint-race-option {
+  display: flex;
+  flex-direction: column;
   align-items: center;
+}
+
+.dropdown:hover {
+  cursor: pointer;
+}
+
+.dropdown-content {
+  display: none;
+  position: absolute;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  background-color: #333333;
+}
+
+.dropdown:hover .dropdown-content {
+  display: block;
+}
+
+.dropdown-content a {
+  display: block;
+  color: silver;
+  text-decoration: none;
+}
+
+.dropdown-content a:hover {
+  color: #ffffff;
+  background-color: #00a4bd;
+}
+
+.userDropdown:hover {
+  cursor: pointer;
+}
+
+.userDropdown:hover .userDropdown-content {
+  display: block;
+}
+
+.userDropdown-content {
+  display: none;
+  position: absolute;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  background-color: #333333;
+}
+
+.userDropdown-content a {
+  display: block;
+  color: silver;
+  text-decoration: none;
+}
+
+.userDropdown-content a:hover {
+  color: #ffffff;
+  background-color: #00a4bd;
+}
+
+#logins {
+  display: flex;
+  justify-content: center;
+}
+
+#loginForm {
+  display: flex;
+  flex-direction: column;
+  border-style: groove;
+  width: 250px;
+  align-items: center;
+  background: linear-gradient(to left, #000, rgb(55, 56, 56), #696969);
+}
+
+#signups {
+  display: flex;
+  justify-content: center;
+}
+
+#signupForm {
+  display: flex;
+  flex-direction: column;
+  border-style: groove;
+  width: 250px;
+  align-items: center;
+  background: linear-gradient(to left, #000, rgb(55, 56, 56), #696969);
+}
+
+form div {
+  margin: 1em;
+  display: inline-block;
 }
