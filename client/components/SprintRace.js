@@ -59,9 +59,11 @@ function SprintRace() {
       });
 
       if (data !== null) {
-        //if there's a match not done and not in progress
+        console.log(`IF THERE IS A MATCH FOR THIS ROOM`);
         if (!data.completed && !data.inProgress) {
+          console.log(`IF THE MATCH HASN'T STARTED YET AND ISN'T COMPLETED`);
           if (user.id) {
+            console.log(`IF USER IS LOGGED IN`);
             let score = {
               WPM,
               userId: user.id,
@@ -76,46 +78,54 @@ function SprintRace() {
                 raceid: data.id,
               },
             });
+            console.log(`IF SCORE EXISTS:`, ifScoreExists);
 
             if (ifScoreExists === null) {
               await axios.post('/api/scores', score);
             }
+            console.log(`RACE ID:`, data.id);
             setRaceId(data.id);
           }
         } else {
+          console.log(`IF THERE IS NO AVAIABLE MATCH FOR THIS ROOM`);
           if (user.id) {
-            let { data } = await axios.post('/api/scores/newrace', {
+            console.log(`IF USER IS SIGNED IN`);
+            let newRace = await axios.post('/api/scores/newrace', {
               roomID: +location.search.split('=')[1],
               completed: false,
               inProgress: false,
             });
-            setRaceId(data.id);
+            console.log(`NEW RACE ID:`, newRace.data.id);
+            setRaceId(newRace.data.id);
             let score = {
               WPM,
               userId: user.id,
               timeElapsed: 0,
               wordsTyped,
               mode: 'sprintrace',
-              raceId: data.id,
+              raceId: newRace.data.id,
             };
             await axios.post('/api/scores', score);
           }
         }
       } else {
+        console.log(`IF THERE IS NO MATCHES AT ALL FOR THIS ROOM`);
         if (user.id) {
-          let { data } = await axios.post('/api/scores/newrace', {
+          console.log(`IF USER IS SIGNED IN`);
+          let newRace = await axios.post('/api/scores/newrace', {
             roomID: +location.search.split('=')[1],
             completed: false,
             inProgress: false,
           });
-          setRaceId(data.id);
+          console.log(`NEW RACE ID:`, newRace.data.id);
+          setRaceId(newRace.data.id);
           let score = {
             WPM,
             userId: user.id,
             timeElapsed: 0,
             wordsTyped,
             mode: 'sprintrace',
-            raceId: data.id,
+            raceId: newRace.data.id,
           };
           await axios.post('/api/scores', score);
         }
