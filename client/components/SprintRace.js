@@ -70,7 +70,9 @@ function SprintRace() {
               mode: 'sprintrace',
               raceId: data.id,
             };
-            await axios.post('/api/scores', score);
+
+            await axios.post('/api/scores/score', score);
+
             setRaceId(data.id);
           }
         } else {
@@ -89,7 +91,8 @@ function SprintRace() {
               mode: 'sprintrace',
               raceId: data.id,
             };
-            await axios.post('/api/scores', score);
+
+            await axios.post('/api/scores/score', score);
           }
         }
       } else {
@@ -108,6 +111,7 @@ function SprintRace() {
             mode: 'sprintrace',
             raceId: data.id,
           };
+
           await axios.post('/api/scores', score);
         }
       }
