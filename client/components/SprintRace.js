@@ -159,24 +159,27 @@ function SprintRace() {
     let cdown;
     let ctimeout;
     let words;
-    async function startRace() {
-      function shuffle(array) {
-        let currentIndex = array.length,
-          randomIndex;
+    if (countingDown === true) {
+      console.log('bruh?');
+      async function startRace() {
+        function shuffle(array) {
+          let currentIndex = array.length,
+            randomIndex;
 
-        while (currentIndex != 0) {
-          randomIndex = Math.floor(Math.random() * currentIndex);
-          currentIndex--;
-          [array[currentIndex], array[randomIndex]] = [
-            array[randomIndex],
-            array[currentIndex],
-          ];
+          while (currentIndex != 0) {
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex--;
+            [array[currentIndex], array[randomIndex]] = [
+              array[randomIndex],
+              array[currentIndex],
+            ];
+          }
+
+          return array;
         }
-
-        return array;
+        words = shuffle(randomWords);
       }
-      words = shuffle(randomWords);
-
+      startRace();
       let { data } = await axios.get('/api/scores/roommatch', {
         headers: {
           roomid: +location.search.split('=')[1],
@@ -187,9 +190,6 @@ function SprintRace() {
         rid: location.search,
         raceId: data.id,
       });
-    }
-    if (countingDown === true) {
-      startRace();
       cdown = setInterval(() => {
         setCountdown((countdown) => countdown - 1);
       }, 1000);
