@@ -77,3 +77,26 @@ router.get('/listofplayers', async (req, res, next) => {
     next(err);
   }
 });
+
+router.put('/finalscore', async (req, res, next) => {
+  try {
+    let { WPM, userId, timeElapsed, wordsTyped, mode, raceId } = req.body;
+    let score = await Score.findOne({
+      where: {
+        userId,
+        raceId,
+        mode,
+      },
+    });
+    await score.update({
+      wpm: WPM,
+      wordsTyped,
+      mode,
+      raceId,
+      timeelapsed: timeElapsed,
+    });
+    res.json();
+  } catch (err) {
+    next(err);
+  }
+});
