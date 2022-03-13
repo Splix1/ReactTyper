@@ -25,6 +25,8 @@ function SprintRace() {
   let user = useSelector((state) => state.auth);
   let location = useLocation();
   let [players, setPlayers] = useState([]);
+  let [countdown, setCountdown] = useState(3);
+  let [countingDown, setCountingDown] = useState(false);
 
   useEffect(() => {
     let fetchingPlayers;
@@ -128,8 +130,16 @@ function SprintRace() {
 
   socket.on('start-race', (race) => {
     if (location.search === race.rid && racing === false) {
-      setRaceParagraph(race.words);
-      setRacing(true);
+      setCountingDown(true);
+      let countdown = setInterval(() => {
+        setCountdown((countdown) => countdown - 1);
+      }, 1000);
+      setTimeout(() => {
+        clearInterval(countdown);
+        setCountingDown(false);
+        setRaceParagraph(race.words);
+        setRacing(true);
+      }, 3000);
       setRaceId(race.raceId);
     }
   });
@@ -151,8 +161,16 @@ function SprintRace() {
       return array;
     }
     let words = shuffle(randomWords);
-    setRaceParagraph(words);
-    setRacing(true);
+    setCountingDown(true);
+    let countdown = setInterval(() => {
+      setCountdown((countdown) => countdown - 1);
+    }, 1000);
+    setTimeout(() => {
+      clearInterval(countdown);
+      setCountingDown(false);
+      setRaceParagraph(words);
+      setRacing(true);
+    }, 3000);
 
     let { data } = await axios.get('/api/scores/roommatch', {
       headers: {
@@ -298,7 +316,7 @@ function SprintRace() {
           onKeyDown={(e) => handleSpace(e)}
         ></input>
       ) : null}
-      {racing === false && raceCompleted !== true ? (
+      {racing === false && raceCompleted !== true && countingDown === false ? (
         <div id="start">
           <p>
             <button id="start-button" onClick={startRace}>
@@ -307,20 +325,13 @@ function SprintRace() {
           </p>
           <p id="start-text">The race will begin once you click Start</p>
         </div>
-      ) : raceCompleted !== true && WPM > 60 ? (
+      ) : raceCompleted !== true && WPM > 60 && countingDown === false ? (
         <img src="https://cdn.discordapp.com/emojis/925220507241033849.gif?size=96&quality=lossless" />
-      ) : raceCompleted !== true && WPM <= 60 ? (
+      ) : raceCompleted !== true && WPM <= 60 && countingDown === false ? (
         <img src="https://cdn.discordapp.com/emojis/863005286951550996.webp?size=96&quality=lossless" />
-      ) : (
-        <div id="start">
-          <p>
-            <button id="start-button" onClick={startRace}>
-              <p>Play again 🏁</p>
-            </button>
-          </p>
-          <p id="start-text">The race will begin once you click Start</p>
-        </div>
-      )}
+      ) : countingDown === true ? (
+        <h1>{countdown}</h1>
+      ) : null}
       <br></br>
       {results.length > 0 && raceCompleted === true ? (
         <div id="race-results">
