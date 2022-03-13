@@ -131,7 +131,7 @@ function SprintRace() {
     room();
   }, [user]);
 
-  socket.once('start-race', (race) => {
+  socket.on('start-race', (race) => {
     let cdown;
     let ctimeout;
     if (location.search === race.rid && racing === false) {
