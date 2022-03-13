@@ -80,7 +80,7 @@ function SprintRace() {
             });
             console.log(`IF SCORE EXISTS:`, ifScoreExists);
 
-            if (ifScoreExists === null) {
+            if (ifScoreExists.data === null) {
               await axios.post('/api/scores', score);
             }
             console.log(`RACE ID:`, data.id);
