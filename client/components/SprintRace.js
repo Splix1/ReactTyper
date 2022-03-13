@@ -27,7 +27,7 @@ function SprintRace() {
   let [players, setPlayers] = useState([]);
   let [countdown, setCountdown] = useState(3);
   let [countingDown, setCountingDown] = useState(false);
-  let [startedRace, setStartedRace] = useState(false);
+  let startedRace = false;
 
   useEffect(() => {
     let fetchingPlayers;
@@ -355,7 +355,7 @@ function SprintRace() {
             <button
               id="start-button"
               onClick={() => {
-                setStartedRace(true);
+                startedRace = true;
                 setCountingDown(true);
               }}
             >
