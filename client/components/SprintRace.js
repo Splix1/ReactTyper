@@ -27,6 +27,7 @@ function SprintRace() {
   let [players, setPlayers] = useState([]);
   let [countdown, setCountdown] = useState(3);
   let [countingDown, setCountingDown] = useState(false);
+  let [startedRace, setStartedRace] = useState(false);
 
   useEffect(() => {
     let fetchingPlayers;
@@ -187,7 +188,7 @@ function SprintRace() {
         raceId: data.id,
       });
     }
-    if (countingDown === true) {
+    if (countingDown === true && startedRace === true) {
       startRace();
       cdown = setInterval(() => {
         setCountdown((countdown) => countdown - 1);
@@ -351,7 +352,13 @@ function SprintRace() {
       {racing === false && raceCompleted !== true && countingDown === false ? (
         <div id="start">
           <p>
-            <button id="start-button" onClick={() => setCountingDown(true)}>
+            <button
+              id="start-button"
+              onClick={() => {
+                setStartedRace(true);
+                setCountingDown(true);
+              }}
+            >
               <p>Start 🏁</p>
             </button>
           </p>
