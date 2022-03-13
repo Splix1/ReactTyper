@@ -40,6 +40,9 @@ function SprintRace() {
         clearInterval(fetchingPlayers);
       }
     }
+    return function cleanup() {
+      clearInterval(fetchingPlayers);
+    };
   }, [raceId, racing]);
 
   async function fetchPlayers() {
