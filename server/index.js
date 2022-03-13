@@ -1,13 +1,15 @@
 const { db } = require('./db');
+const express = require('express');
 const PORT = process.env.PORT || 3000;
 const INDEX = '/public/index.html';
 const app = require('./app');
 const seed = require('../script/seed');
 const Race = require('./db/models/Races');
 const socketIO = require('socket.io');
+const path = require('path');
 
-const server = express()
-  .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
+const server = app
+  .use((req, res) => res.sendFile(path.join(__dirname, '..', INDEX)))
   .listen(PORT, () => console.log(`Listening on ${PORT}`));
 
 const io = socketIO(server);
