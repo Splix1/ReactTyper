@@ -63,6 +63,7 @@ function SprintRace() {
         },
       });
 
+      //if a match exists for this room
       if (data !== null) {
         if (!data.completed && !data.inProgress) {
           if (user.id) {
