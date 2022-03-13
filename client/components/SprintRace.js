@@ -132,7 +132,7 @@ function SprintRace() {
     if (location.search === race.rid && racing === false) {
       setCountingDown(true);
       let cdown = setInterval(() => {
-        setCountdown((countdown) => countdown - 1);
+        setCountdown((countdown -= 1));
       }, 1000);
       setTimeout(() => {
         clearInterval(cdown);
