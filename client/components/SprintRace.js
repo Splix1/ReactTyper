@@ -70,7 +70,15 @@ function SprintRace() {
               mode: 'sprintrace',
               raceId: data.id,
             };
-            await axios.post('/api/scores', score);
+            let { data } = await axios.get('/api/scores/score', {
+              headers: {
+                userid: user.id,
+                raceid: data.id,
+              },
+            });
+            if (!data.id) {
+              await axios.post('/api/scores/score', score);
+            }
             setRaceId(data.id);
           }
         } else {
@@ -89,7 +97,15 @@ function SprintRace() {
               mode: 'sprintrace',
               raceId: data.id,
             };
-            await axios.post('/api/scores', score);
+            let scoreFromDB = await axios.get('/api/scores/score', {
+              headers: {
+                userid: user.id,
+                raceid: data.id,
+              },
+            });
+            if (!scoreFromDB.data.id) {
+              await axios.post('/api/scores/score', score);
+            }
           }
         }
       } else {
@@ -108,7 +124,15 @@ function SprintRace() {
             mode: 'sprintrace',
             raceId: data.id,
           };
-          await axios.post('/api/scores', score);
+          let scoreFromDB = await axios.get('/api/scores/score', {
+            headers: {
+              userid: user.id,
+              raceid: data.id,
+            },
+          });
+          if (!scoreFromDB.data.id) {
+            await axios.post('/api/scores', score);
+          }
         }
       }
     }
