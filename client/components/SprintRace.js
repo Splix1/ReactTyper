@@ -162,7 +162,7 @@ function SprintRace() {
           mode: 'sprintrace',
           raceId,
         };
-        await axios.post('/api/scores', score);
+        await axios.put('/api/scores/finalscore', score);
         setTimeout(async () => {
           let scores = await axios.get('/api/scores/sprintraceresults', {
             headers: {
