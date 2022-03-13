@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "seed": "node script/seed.js",
+    "start": "node server",
     "start-dev": "webpack -w & nodemon server",
     "start-windows": "nodemon server -e html,js,scss --ignore public --ignore client",
     "build": "webpack",
