@@ -190,7 +190,7 @@ function SprintRace() {
     if (countingDown === true) {
       startRace();
       cdown = setInterval(() => {
-        setCountdown((countdown -= 1));
+        setCountdown((countdown) => countdown - 1);
       }, 1000);
       ctimeout = setTimeout(() => {
         clearInterval(cdown);
