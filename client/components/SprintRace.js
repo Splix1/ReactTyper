@@ -162,11 +162,11 @@ function SprintRace() {
     }
     let words = shuffle(randomWords);
     setCountingDown(true);
-    let countdown = setInterval(() => {
+    let cdown = setInterval(() => {
       setCountdown((countdown) => countdown - 1);
     }, 1000);
     setTimeout(() => {
-      clearInterval(countdown);
+      clearInterval(cdown);
       setCountingDown(false);
       setRaceParagraph(words);
       setRacing(true);
