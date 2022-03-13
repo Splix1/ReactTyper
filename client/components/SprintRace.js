@@ -132,13 +132,12 @@ function SprintRace() {
   }, [user]);
 
   socket.once('start-race', (race) => {
-    console.log('bruh');
     let cdown;
     let ctimeout;
     if (location.search === race.rid && racing === false) {
       setCountingDown(true);
       cdown = setInterval(() => {
-        setCountdown((countdown) => countdown - 1);
+        setCountdown((countdown -= 1));
       }, 1000);
       ctimeout = setTimeout(() => {
         clearInterval(cdown);
@@ -190,7 +189,7 @@ function SprintRace() {
     if (countingDown === true) {
       startRace();
       cdown = setInterval(() => {
-        setCountdown((countdown) => countdown - 1);
+        setCountdown((countdown -= 1));
       }, 1000);
       ctimeout = setTimeout(() => {
         clearInterval(cdown);
