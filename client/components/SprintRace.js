@@ -59,7 +59,6 @@ function SprintRace() {
       });
 
       if (data !== null) {
-        //if there's a match not done and not in progress
         if (!data.completed && !data.inProgress) {
           if (user.id) {
             let score = {
