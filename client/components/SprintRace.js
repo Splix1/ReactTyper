@@ -59,7 +59,6 @@ function SprintRace() {
       });
 
       if (data !== null) {
-        //if there's a match not done and not in progress
         if (!data.completed && !data.inProgress) {
           if (user.id) {
             let score = {
@@ -70,9 +69,7 @@ function SprintRace() {
               mode: 'sprintrace',
               raceId: data.id,
             };
-
-            await axios.post('/api/scores/score', score);
-
+            await axios.post('/api/scores', score);
             setRaceId(data.id);
           }
         } else {
@@ -91,8 +88,7 @@ function SprintRace() {
               mode: 'sprintrace',
               raceId: data.id,
             };
-
-            await axios.post('/api/scores/score', score);
+            await axios.post('/api/scores', score);
           }
         }
       } else {
@@ -111,7 +107,6 @@ function SprintRace() {
             mode: 'sprintrace',
             raceId: data.id,
           };
-
           await axios.post('/api/scores', score);
         }
       }
