@@ -49,7 +49,10 @@ router.get('/sprintraceresults', async (req, res, next) => {
 
 router.get('/roommatch', async (req, res, next) => {
   try {
-    let { roomid } = req.headers;
+    let roomid = req.headers.roomid;
+    if (isNaN(roomid)) {
+      roomid = 0;
+    }
     let room = await Race.findOne({
       where: {
         roomID: roomid,
