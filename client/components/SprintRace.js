@@ -76,8 +76,8 @@ function SprintRace() {
                 raceid: data.id,
               },
             });
-            console.log(ifScoreExists.data);
-            if (!ifScoreExists.data.id) {
+
+            if (ifScoreExists === null) {
               await axios.post('/api/scores', score);
             }
             setRaceId(data.id);
