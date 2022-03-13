@@ -16,6 +16,7 @@ function SingleRace() {
   let [averageWPM, setAverageWPM] = useState(0);
   let [wrongWords, setWrongWords] = useState([]);
   let [displayWrongWords, setDisplayWrongWords] = useState(false);
+  let [clicked, setClicked] = useState(false);
 
   useEffect(() => {
     if (racing === true) {
@@ -140,6 +141,7 @@ function SingleRace() {
           name="currently-typed"
           type="text"
           autoFocus
+          autoComplete="off"
           value={currentlyTyped}
           onChange={(e) => handleChange(e)}
           onKeyDown={(e) => handleSpace(e)}
@@ -161,7 +163,13 @@ function SingleRace() {
       ) : (
         <div id="start">
           <p>
-            <button id="start-button" onClick={() => setRacing(true)}>
+            <button
+              id="start-button"
+              onClick={() => {
+                setRacing(true);
+                setClicked(false);
+              }}
+            >
               <p>Play again 🏁</p>
             </button>
           </p>
@@ -169,19 +177,6 @@ function SingleRace() {
         </div>
       )}
       <br></br>
-      {raceCompleted === true && displayWrongWords === true ? (
-        <div id="wrong-words">
-          Wrong words:
-          <br></br>
-          {wrongWords.map((word, i) => {
-            return (
-              <span key={i} className="wrong-word">
-                {word}
-              </span>
-            );
-          })}
-        </div>
-      ) : null}
       {raceCompleted === true ? (
         <div>
           <div id="race-stats">
@@ -199,7 +194,30 @@ function SingleRace() {
               <div></div>
             </div>
           </div>
-          <button onClick={(e) => showWrongWords(e)}>See wrong words</button>
+          {clicked === false ? (
+            <button
+              onClick={(e) => {
+                showWrongWords(e);
+                setClicked(true);
+              }}
+            >
+              See wrong words
+            </button>
+          ) : null}
+        </div>
+      ) : null}
+      {raceCompleted === true && displayWrongWords === true ? (
+        <div id="wrong-words">
+          Wrong words:
+          <div>
+            {wrongWords.map((word, i) => {
+              return (
+                <div key={i} className="wrong-word">
+                  {word}
+                </div>
+              );
+            })}
+          </div>
         </div>
       ) : null}
     </main>
