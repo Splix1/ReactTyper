@@ -131,11 +131,11 @@ function SprintRace() {
   socket.on('start-race', (race) => {
     if (location.search === race.rid && racing === false) {
       setCountingDown(true);
-      let countdown = setInterval(() => {
+      let cdown = setInterval(() => {
         setCountdown((countdown) => countdown - 1);
       }, 1000);
       setTimeout(() => {
-        clearInterval(countdown);
+        clearInterval(cdown);
         setCountingDown(false);
         setRaceParagraph(race.words);
         setRacing(true);
