@@ -69,7 +69,16 @@ function SprintRace() {
               mode: 'sprintrace',
               raceId: data.id,
             };
-            await axios.post('/api/scores', score);
+            let ifScoreExists = await axios.get('/api/scores/score', {
+              headers: {
+                userid: user.id,
+                raceid: data.id,
+              },
+            });
+            console.log(ifScoreExists.data);
+            if (!ifScoreExists.data.id) {
+              await axios.post('/api/scores', score);
+            }
             setRaceId(data.id);
           }
         } else {
