@@ -118,3 +118,19 @@ router.get('/score', async (req, res, next) => {
     next(err);
   }
 });
+
+router.delete('/score', async (req, res, next) => {
+  try {
+    let { userid, raceid } = req.headers;
+    let score = await Score.findOne({
+      where: {
+        userId: userid,
+        rceId: raceid,
+      },
+    });
+    await score.destroy();
+    res.send();
+  } catch (err) {
+    next(err);
+  }
+});
