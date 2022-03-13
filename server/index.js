@@ -28,6 +28,9 @@ const io = require('socket.io')(3000, {
 io.on('connection', (socket) => {
   console.log(socket.id);
   socket.on('start-race', async (race) => {
+    let match = await Race.findByPk(race.raceId);
+    await match.update({ inProgress: true });
+    await match.save();
     socket.broadcast.emit('start-race', race);
   });
 });
