@@ -24,11 +24,101 @@ function SprintRace() {
   let [raceId, setRaceId] = useState(0);
   let user = useSelector((state) => state.auth);
   let location = useLocation();
+  let [players, setPlayers] = useState([]);
+
+  useEffect(() => {
+    let fetchingPlayers;
+    if (raceId > 0 && racing === false && timer === 30) {
+      fetchPlayers();
+      fetchingPlayers = setInterval(async () => {
+        fetchPlayers();
+      }, 5000);
+    } else {
+      if (fetchingPlayers) {
+        clearInterval(fetchingPlayers);
+      }
+    }
+  }, [raceId, racing]);
+
+  async function fetchPlayers() {
+    let { data } = await axios.get('/api/scores/listofplayers', {
+      headers: {
+        raceid: raceId,
+      },
+    });
+    setPlayers(data);
+    return;
+  }
+
+  useEffect(() => {
+    async function room() {
+      let { data } = await axios.get('/api/scores/roommatch', {
+        headers: {
+          roomid: +location.search.split('=')[1],
+        },
+      });
+
+      if (data !== null) {
+        //if there's a match not done and not in progress
+        if (!data.completed && !data.inProgress) {
+          if (user.id) {
+            let score = {
+              WPM,
+              userId: user.id,
+              timeElapsed: 0,
+              wordsTyped,
+              mode: 'sprintrace',
+              raceId: data.id,
+            };
+            await axios.post('/api/scores', score);
+            setRaceId(data.id);
+          }
+        } else {
+          if (user.id) {
+            let { data } = await axios.post('/api/scores/newrace', {
+              roomID: +location.search.split('=')[1],
+              completed: false,
+              inProgress: false,
+            });
+            setRaceId(data.id);
+            let score = {
+              WPM,
+              userId: user.id,
+              timeElapsed: 0,
+              wordsTyped,
+              mode: 'sprintrace',
+              raceId: data.id,
+            };
+            await axios.post('/api/scores', score);
+          }
+        }
+      } else {
+        if (user.id) {
+          let { data } = await axios.post('/api/scores/newrace', {
+            roomID: +location.search.split('=')[1],
+            completed: false,
+            inProgress: false,
+          });
+          setRaceId(data.id);
+          let score = {
+            WPM,
+            userId: user.id,
+            timeElapsed: 0,
+            wordsTyped,
+            mode: 'sprintrace',
+            raceId: data.id,
+          };
+          await axios.post('/api/scores', score);
+        }
+      }
+    }
+    room();
+  }, [user]);
 
   socket.on('start-race', (race) => {
     if (location.search === race.rid && racing === false) {
       setRaceParagraph(race.words);
-      setRacing(!racing);
+      setRacing(true);
       setRaceId(race.raceId);
     }
   });
@@ -51,10 +141,13 @@ function SprintRace() {
     }
     let words = shuffle(randomWords);
     setRaceParagraph(words);
-    setRacing(!racing);
-    let { data } = await axios.post('/api/scores/newrace');
-    setRaceId(data.id);
+    setRacing(true);
 
+    let { data } = await axios.get('/api/scores/roommatch', {
+      headers: {
+        roomid: +location.search.split('=')[1],
+      },
+    });
     socket.emit('start-race', { words, rid: location.search, raceId: data.id });
   }
 
@@ -232,7 +325,7 @@ function SprintRace() {
           <div className="race-result-list">
             {results.map((result, i) => {
               return (
-                <span className="race-result">
+                <span key={i} className="race-result">
                   <span>{i + 1}.</span>
                   <span>{result['user'].username}</span>
                   <span>
@@ -243,7 +336,18 @@ function SprintRace() {
             })}
           </div>
         </div>
-      ) : null}
+      ) : (
+        <div id="players-list">
+          <h1>Players</h1>
+          {players.map((player, i) => {
+            return (
+              <h3 key={i} className="player">
+                {player['user'].username}
+              </h3>
+            );
+          })}
+        </div>
+      )}
     </main>
   );
 }
