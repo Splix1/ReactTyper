@@ -234,6 +234,7 @@ function SprintRace() {
     let raceTimer;
     let racethirty;
     if (racing === true) {
+      setCountdown(3);
       setTimer(30);
       setTimeElapsed(0);
       setRaceCompleted(false);
@@ -361,7 +362,16 @@ function SprintRace() {
         <img src="https://cdn.discordapp.com/emojis/863005286951550996.webp?size=96&quality=lossless" />
       ) : countingDown === true ? (
         <h1>{countdown}</h1>
-      ) : null}
+      ) : (
+        <div id="start">
+          <p>
+            <button id="start-button" onClick={() => setCountingDown(true)}>
+              <p>Play again 🏁</p>
+            </button>
+          </p>
+          <p id="start-text">The race will begin once you click Start</p>
+        </div>
+      )}
       <br></br>
       {results.length > 0 && raceCompleted === true ? (
         <div id="race-results">
