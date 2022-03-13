@@ -132,12 +132,14 @@ function SprintRace() {
   }, [user]);
 
   socket.on('start-race', (race) => {
+    let cdown;
+    let ctimeout;
     if (location.search === race.rid && racing === false) {
       setCountingDown(true);
-      let cdown = setInterval(() => {
+      cdown = setInterval(() => {
         setCountdown((countdown -= 1));
       }, 1000);
-      setTimeout(() => {
+      ctimeout = setTimeout(() => {
         clearInterval(cdown);
         setCountingDown(false);
         setRaceParagraph(race.words);
@@ -145,43 +147,62 @@ function SprintRace() {
       }, 3000);
       setRaceId(race.raceId);
     }
+    return function cleanup() {
+      clearInterval(cdown);
+      clearTimeout(ctimeout);
+    };
   });
 
-  async function startRace() {
-    function shuffle(array) {
-      let currentIndex = array.length,
-        randomIndex;
+  useEffect(() => {
+    let cdown;
+    let ctimeout;
+    let words;
+    async function startRace() {
+      function shuffle(array) {
+        let currentIndex = array.length,
+          randomIndex;
 
-      while (currentIndex != 0) {
-        randomIndex = Math.floor(Math.random() * currentIndex);
-        currentIndex--;
-        [array[currentIndex], array[randomIndex]] = [
-          array[randomIndex],
-          array[currentIndex],
-        ];
+        while (currentIndex != 0) {
+          randomIndex = Math.floor(Math.random() * currentIndex);
+          currentIndex--;
+          [array[currentIndex], array[randomIndex]] = [
+            array[randomIndex],
+            array[currentIndex],
+          ];
+        }
+
+        return array;
       }
+      words = shuffle(randomWords);
 
-      return array;
+      let { data } = await axios.get('/api/scores/roommatch', {
+        headers: {
+          roomid: +location.search.split('=')[1],
+        },
+      });
+      socket.emit('start-race', {
+        words,
+        rid: location.search,
+        raceId: data.id,
+      });
     }
-    let words = shuffle(randomWords);
-    setCountingDown(true);
-    let cdown = setInterval(() => {
-      setCountdown((countdown) => countdown - 1);
-    }, 1000);
-    setTimeout(() => {
+    if (countingDown === true) {
+      startRace();
+      cdown = setInterval(() => {
+        setCountdown((countdown) => countdown - 1);
+      }, 1000);
+      ctimeout = setTimeout(() => {
+        clearInterval(cdown);
+        setCountingDown(false);
+        setRaceParagraph(words);
+        setRacing(true);
+      }, 3000);
+    }
+    return function cleanup() {
       clearInterval(cdown);
-      setCountingDown(false);
-      setRaceParagraph(words);
-      setRacing(true);
-    }, 3000);
-
-    let { data } = await axios.get('/api/scores/roommatch', {
-      headers: {
-        roomid: +location.search.split('=')[1],
-      },
-    });
-    socket.emit('start-race', { words, rid: location.search, raceId: data.id });
-  }
+      clearTimeout(ctimeout);
+    };
+  }, [countingDown]);
 
   useEffect(() => {
     if (raceCompleted === true) {
@@ -210,6 +231,8 @@ function SprintRace() {
   }, [raceCompleted]);
 
   useEffect(() => {
+    let raceTimer;
+    let racethirty;
     if (racing === true) {
       setTimer(30);
       setTimeElapsed(0);
@@ -223,17 +246,21 @@ function SprintRace() {
       setWPM(0);
       setCurrentlyTyped('');
 
-      let raceTimer = setInterval(() => {
+      raceTimer = setInterval(() => {
         setTimer((timer) => timer - 1);
         setTimeElapsed((timeElapsed) => timeElapsed + 1);
       }, 1000);
 
-      setTimeout(() => {
+      racethirty = setTimeout(() => {
         clearInterval(raceTimer);
         setRacing(false);
         setRaceCompleted(true);
       }, 30000);
     }
+    return function cleanup() {
+      clearInterval(raceTimer);
+      clearTimeout(racethirty);
+    };
   }, [racing]);
 
   useEffect(() => {
@@ -322,7 +349,7 @@ function SprintRace() {
       {racing === false && raceCompleted !== true && countingDown === false ? (
         <div id="start">
           <p>
-            <button id="start-button" onClick={startRace}>
+            <button id="start-button" onClick={() => setCountingDown(true)}>
               <p>Start 🏁</p>
             </button>
           </p>
