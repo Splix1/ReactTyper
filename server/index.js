@@ -1,32 +1,18 @@
 const { db } = require('./db');
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 3000;
+const INDEX = '/public/index.html';
 const app = require('./app');
 const seed = require('../script/seed');
 const Race = require('./db/models/Races');
+const socketIO = require('socket.io');
 
-const init = async () => {
-  try {
-    if (process.env.SEED === 'true') {
-      await seed();
-    } else {
-      await db.sync();
-    }
-    app.listen(PORT, () => console.log(`Mixing it up on port ${PORT}`));
-  } catch (ex) {
-    console.log(ex);
-  }
-};
+const server = express()
+  .use((req, res) => res.sendFile(INDEX, { root: __dirname }))
+  .listen(PORT, () => console.log(`Listening on ${PORT}`));
 
-init();
-
-const io = require('socket.io')(3000, {
-  cors: {
-    origin: ['http://localhost:8080'],
-  },
-});
+const io = socketIO(server);
 
 io.on('connection', (socket) => {
-  console.log(socket.id);
   socket.on('start-race', async (race) => {
     let match = await Race.findByPk(race.raceId);
     await match.update({ inProgress: true });
