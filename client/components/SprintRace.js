@@ -136,8 +136,13 @@ function SprintRace() {
   socket.on('start-race', (race) => {
     if (location.search === race.rid && racing === false) {
       setCountingDownPlayers(true);
+      setRaceParagraph(race.words);
       setRaceId(race.raceId);
     }
+    return function cleanup() {
+      clearInterval(cdown);
+      clearTimeout(ctimeout);
+    };
   });
 
   useEffect(() => {
