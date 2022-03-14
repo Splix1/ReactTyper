@@ -201,7 +201,6 @@ function SprintRace() {
     let ctimeout;
     if (countingDownPlayers === true) {
       cdown = setInterval(() => {
-        console.log(countingDownPlayers);
         setCountdown((countdown) => countdown - 1);
       }, 1000);
       ctimeout = setTimeout(() => {
@@ -359,7 +358,10 @@ function SprintRace() {
           onKeyDown={(e) => handleSpace(e)}
         ></input>
       ) : null}
-      {racing === false && raceCompleted !== true && countingDown === false ? (
+      {racing === false &&
+      raceCompleted !== true &&
+      countingDown === false &&
+      countingDownPlayers === false ? (
         <div id="start">
           <p>
             <button id="start-button" onClick={() => setCountingDown(true)}>
