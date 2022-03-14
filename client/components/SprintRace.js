@@ -27,6 +27,7 @@ function SprintRace() {
   let [players, setPlayers] = useState([]);
   let [countdown, setCountdown] = useState(3);
   let [countingDown, setCountingDown] = useState(false);
+  let [countingDownPlayers, setCountingDownPlayers] = useState(false);
 
   useEffect(() => {
     let fetchingPlayers;
@@ -136,13 +137,13 @@ function SprintRace() {
     let cdown;
     let ctimeout;
     if (location.search === race.rid && racing === false) {
-      setCountingDown(true);
+      setCountingDownPlayers(true);
       cdown = setInterval(() => {
         setCountdown((countdown -= 1));
       }, 1000);
       ctimeout = setTimeout(() => {
         clearInterval(cdown);
-        setCountingDown(false);
+        setCountingDownPlayers(false);
         setRaceParagraph(race.words);
         setRacing(true);
       }, 3000);
@@ -175,6 +176,7 @@ function SprintRace() {
         return array;
       }
       words = shuffle(randomWords);
+      setRaceParagraph(words);
 
       let { data } = await axios.get('/api/scores/roommatch', {
         headers: {
@@ -195,7 +197,6 @@ function SprintRace() {
       ctimeout = setTimeout(() => {
         clearInterval(cdown);
         setCountingDown(false);
-        setRaceParagraph(words);
         setRacing(true);
       }, 3000);
     }
@@ -204,6 +205,25 @@ function SprintRace() {
       clearTimeout(ctimeout);
     };
   }, [countingDown]);
+
+  useEffect(() => {
+    let cdown;
+    let ctimeout;
+    if (countingDownPlayers === true) {
+      cdown = setInterval(() => {
+        setCountdown((countdown) => countdown - 1);
+      }, 1000);
+      ctimeout = setTimeout(() => {
+        clearInterval(cdown);
+        setCountingDownPlayers(false);
+        setRacing(true);
+      }, 3000);
+    }
+    return function cleanup() {
+      clearInterval(cdown);
+      clearTimeout(ctimeout);
+    };
+  }, [countingDownPlayers]);
 
   useEffect(() => {
     if (raceCompleted === true) {
@@ -361,7 +381,7 @@ function SprintRace() {
         <img src="https://cdn.discordapp.com/emojis/925220507241033849.gif?size=96&quality=lossless" />
       ) : raceCompleted !== true && WPM <= 60 && countingDown === false ? (
         <img src="https://cdn.discordapp.com/emojis/863005286951550996.webp?size=96&quality=lossless" />
-      ) : countingDown === true ? (
+      ) : countingDown === true || countingDownPlayers === true ? (
         <h1>{countdown}</h1>
       ) : (
         <div id="start">
