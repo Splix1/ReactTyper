@@ -34,7 +34,7 @@ function SprintRace() {
       fetchPlayers();
       fetchingPlayers = setInterval(async () => {
         fetchPlayers();
-      }, 5000);
+      }, 1000);
     } else {
       if (fetchingPlayers) {
         clearInterval(fetchingPlayers);
