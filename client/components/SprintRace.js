@@ -201,6 +201,7 @@ function SprintRace() {
     let ctimeout;
     if (countingDownPlayers === true) {
       cdown = setInterval(() => {
+        console.log(countingDownPlayers);
         setCountdown((countdown) => countdown - 1);
       }, 1000);
       ctimeout = setTimeout(() => {
