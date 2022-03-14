@@ -380,17 +380,15 @@ function SprintRace() {
             The winner is {results[0]['user'].username}!
           </h3>
           <div id="result-types">
-            <div>WPM / </div>
-            <div>WordsTyped</div>
+            <div>WPM / WordsTyped</div>
           </div>
           <div className="race-result-list">
             {results.map((result, i) => {
               return (
                 <div key={i} className="race-result">
-                  <div>{i + 1}. </div>
-                  <div>{result['user'].username} </div>
                   <div>
-                    {result.wpm} / {result.wordsTyped}
+                    {i + 1}. {result['user'].username} {result.wpm} /{' '}
+                    {result.wordsTyped}
                   </div>
                 </div>
               );
