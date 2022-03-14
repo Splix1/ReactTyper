@@ -134,25 +134,10 @@ function SprintRace() {
   }, [user]);
 
   socket.on('start-race', (race) => {
-    let cdown;
-    let ctimeout;
     if (location.search === race.rid && racing === false) {
       setCountingDownPlayers(true);
-      cdown = setInterval(() => {
-        setCountdown((countdown -= 1));
-      }, 1000);
-      ctimeout = setTimeout(() => {
-        clearInterval(cdown);
-        setCountingDownPlayers(false);
-        setRaceParagraph(race.words);
-        setRacing(true);
-      }, 3000);
       setRaceId(race.raceId);
     }
-    return function cleanup() {
-      clearInterval(cdown);
-      clearTimeout(ctimeout);
-    };
   });
 
   useEffect(() => {
