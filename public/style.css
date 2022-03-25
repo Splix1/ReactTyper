@@ -63,6 +63,7 @@ main#single-race > div {
   font-size: 25px;
   width: 50rem;
   overflow: hidden;
+  user-select: none;
 }
 
 span {
