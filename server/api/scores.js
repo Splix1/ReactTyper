@@ -122,10 +122,11 @@ router.get('/score', async (req, res, next) => {
 router.delete('/score', async (req, res, next) => {
   try {
     let { userid, raceid } = req.headers;
+    console.log(userid, raceid);
     let score = await Score.findOne({
       where: {
         userId: userid,
-        rceId: raceid,
+        raceId: raceid,
       },
     });
     await score.destroy();

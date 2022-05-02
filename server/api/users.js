@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const {
-  models: { User },
+  models: { User, Socket },
 } = require('../db');
 const authenticateAdminToken = require('./AuthToken');
 module.exports = router;
