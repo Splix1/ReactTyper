@@ -2,6 +2,7 @@ const db = require('./db');
 const User = require('./models/User');
 const Score = require('./models/Score');
 const Race = require('./models/Races');
+const Socket = require('./models/Sockets');
 
 User.hasMany(Score);
 Score.belongsTo(User);
@@ -15,5 +16,6 @@ module.exports = {
     User,
     Score,
     Race,
+    Socket,
   },
 };

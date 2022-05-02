@@ -33,16 +33,10 @@ function SprintRace() {
     let fetchingPlayers;
     if (raceId > 0 && racing === false && timer === 30) {
       fetchPlayers();
-      fetchingPlayers = setInterval(async () => {
-        fetchPlayers();
-      }, 1000);
-    } else {
-      if (fetchingPlayers) {
-        clearInterval(fetchingPlayers);
-      }
     }
     return function cleanup() {
       clearInterval(fetchingPlayers);
+      // axios.delete('/api/scores/score', { userid: user.id, raceid: raceId });
     };
   }, [raceId, racing]);
 
@@ -52,9 +46,18 @@ function SprintRace() {
         raceid: raceId,
       },
     });
-    setPlayers(data);
-    return;
+    let playerList = [];
+    data.forEach((user) => {
+      playerList.push(user.user.username);
+    });
+    setPlayers(playerList);
   }
+
+  useEffect(() => {
+    return function cleanup() {
+      socket.emit('left-game', { name: user.username });
+    };
+  }, []);
 
   useEffect(() => {
     async function room() {
@@ -88,6 +91,11 @@ function SprintRace() {
             }
 
             setRaceId(data.id);
+            socket.emit('joined-race', {
+              raceID: data.id,
+              userID: user.id,
+              name: user.username,
+            });
           }
         } else {
           if (user.id) {
@@ -98,6 +106,11 @@ function SprintRace() {
             });
 
             setRaceId(newRace.data.id);
+            socket.emit('joined-race', {
+              raceID: newRace.data.id,
+              userID: user.id,
+              name: user.username,
+            });
             let score = {
               WPM,
               userId: user.id,
@@ -118,6 +131,11 @@ function SprintRace() {
           });
 
           setRaceId(newRace.data.id);
+          socket.emit('joined-race', {
+            raceID: newRace.data.id,
+            userID: user.id,
+            name: user.username,
+          });
           let score = {
             WPM,
             userId: user.id,
@@ -143,6 +161,17 @@ function SprintRace() {
       clearInterval(cdown);
       clearTimeout(ctimeout);
     };
+  });
+
+  socket.on('player-left', (player) => {
+    let newPlayersList = players.filter((user) => user !== player.name);
+    setPlayers(newPlayersList);
+  });
+
+  socket.on('new-player', (player) => {
+    let newPlayersList = players;
+    newPlayersList.push(player.name);
+    setPlayers(newPlayersList);
   });
 
   useEffect(() => {
@@ -420,7 +449,7 @@ function SprintRace() {
           {players.map((player, i) => {
             return (
               <h3 key={i} className="player">
-                {player['user'].username}
+                {player}
               </h3>
             );
           })}

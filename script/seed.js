@@ -2,7 +2,7 @@
 
 const {
   db,
-  models: { User },
+  models: { User, Socket },
 } = require('../server/db');
 
 async function seed() {
