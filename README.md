@@ -1,4 +1,4 @@
-# ReactTyper is an authentic combination of [TypeRacer](https://play.typeracer.com/) and [10FastFingers](https://10fastfingers.com/typing-test/english).
+# [ReactTyper](https://reacttyper.herokuapp.com/) is an authentic combination of [TypeRacer](https://play.typeracer.com/) and [10FastFingers](https://10fastfingers.com/typing-test/english).
 
 ### Both have their differences such as TypeRacer being a live WPM test using real sentences/paragraphs including punctuation/capitalization where you can not continue unless you type the text correctly and allowing you to race others, while 10FastFingers intends to be a sprint using random words with no punctuation/capitlization and allowing mistakes.
 
