@@ -10,6 +10,7 @@ const socketIO = require('socket.io');
 const path = require('path');
 const Socket = require('./db/models/Sockets');
 
+console.log('port?', PORT);
 const server = app
   .use((req, res) => res.sendFile(path.join(__dirname, '..', INDEX)))
   .listen(PORT, () => console.log(`Listening on ${PORT}`));
