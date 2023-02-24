@@ -6,7 +6,7 @@
   "scripts": {
     "seed": "node script/seed.js",
     "start": "node server",
-    "seed-and-start": "node script/seed.js && node server/index.js",
+    "seed-and-start": "webpack -w & node script/seed.js & node server/index.js",
     "start-dev": "webpack -w & nodemon server",
     "start-windows": "nodemon server -e html,js,scss --ignore public --ignore client",
     "build": "webpack",
